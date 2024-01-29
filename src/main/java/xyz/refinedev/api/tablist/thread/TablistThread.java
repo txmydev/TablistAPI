@@ -11,6 +11,8 @@ import xyz.refinedev.api.tablist.TablistHandler;
 import xyz.refinedev.api.tablist.setup.TabEntry;
 import xyz.refinedev.api.tablist.setup.TabLayout;
 
+import java.util.logging.Logger;
+
 /**
  * This Project is property of Refine Development © 2021 - 2023
  * Redistribution of this Project is not allowed
@@ -20,11 +22,15 @@ import xyz.refinedev.api.tablist.setup.TabLayout;
  * @since 9/15/2023
  */
 
-@Log4j2
-@RequiredArgsConstructor
 public class TablistThread extends BukkitRunnable {
 
     private final TablistHandler handler;
+    private final Logger log;
+
+    public TablistThread(TablistHandler handler) {
+        this.handler = handler;
+        this.log = handler.getLog();
+    }
 
     @Override
     public void run() {
@@ -52,13 +58,12 @@ public class TablistThread extends BukkitRunnable {
                     if (handler.getPlugin().getName().equals("Bolt") && !handler.isDebug()) {
                         continue;
                     }
-                    log.fatal("[{}] There was an error updating tablist for {}", handler.getPlugin().getName(), player.getName());
-                    log.error(e);
+                    log.severe("There was an error updating tablist for " + handler.getPlugin().getName() + ".");
                     e.printStackTrace();
                 } catch (Exception e) {
-                    log.fatal("[{}] There was an error updating tablist for {}", handler.getPlugin().getName(), player.getName());
-                    log.error(e);
+                    log.severe("There was an error updating tablist for " + handler.getPlugin().getName() + ".");
                     e.printStackTrace();
+
                 }
             }
         }

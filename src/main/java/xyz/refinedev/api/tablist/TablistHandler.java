@@ -24,8 +24,9 @@ import xyz.refinedev.api.tablist.util.PacketUtils;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
-@Getter @Log4j2
+@Getter
 public class TablistHandler {
 
     /**
@@ -41,6 +42,10 @@ public class TablistHandler {
      * The plugin registering this Tablist Handler
      */
     private final JavaPlugin plugin;
+    /**
+     * The logger of the plugin.
+     */
+    private final Logger log;
     /**
      * Our custom Skin Cache that stores every online player's Skin
      */
@@ -64,6 +69,7 @@ public class TablistHandler {
     public TablistHandler(JavaPlugin plugin) {
         instance = this;
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         this.debug = Boolean.getBoolean("BDebug");
     }
 
@@ -91,12 +97,12 @@ public class TablistHandler {
         this.adapter = tabAdapter == null ? new ExampleAdapter() : tabAdapter;
 
         if (ticks < 20L) {
-            log.info("[{}] Provided refresh tick rate for Tablist is too low, reverting to 20 ticks!", plugin.getName());
+            log.info("Provided refresh tick rate for Tablist is too low, reverting to 20 ticks!");
             ticks = 20L;
         }
 
         if (Bukkit.getMaxPlayers() < 60) {
-            log.fatal("[{}] Max Players is below 60, this will cause issues for players on 1.7 and below!", plugin.getName());
+            log.info("Max Players is below 60, this will cause issues for players on 1.7 and below!");
         }
 
         this.thread = new TablistThread(this);
