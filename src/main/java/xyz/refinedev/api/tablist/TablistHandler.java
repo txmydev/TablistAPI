@@ -96,11 +96,6 @@ public class TablistHandler {
     public void registerAdapter(TabAdapter tabAdapter, long ticks) {
         this.adapter = tabAdapter == null ? new ExampleAdapter() : tabAdapter;
 
-        if (ticks < 20L) {
-            log.info("Provided refresh tick rate for Tablist is too low, reverting to 20 ticks!");
-            ticks = 20L;
-        }
-
         if (Bukkit.getMaxPlayers() < 60) {
             log.info("Max Players is below 60, this will cause issues for players on 1.7 and below!");
         }
